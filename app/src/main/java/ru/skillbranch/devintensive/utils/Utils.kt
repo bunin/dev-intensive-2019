@@ -1,8 +1,5 @@
 package ru.skillbranch.devintensive.utils
 
-import android.R.id.message
-
-
 object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {

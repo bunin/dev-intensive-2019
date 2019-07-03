@@ -5,9 +5,10 @@ fun String.truncate(n: Int = 16): String? {
         return this.trim()
     }
     if (n < 4) {
-        throw IllegalArgumentException()
+        return this.substring(0, 2)
     }
-    return this.trim().substring(0..kotlin.math.min(this.trim().length - 4, n - 4)).trim() + "..."
+//    return this.trim().substring(0..kotlin.math.min(this.trim().length - 4, n - 4)).trim() + "..."
+    return this.trim().substring(0 until n).trim() + "..."
 }
 
 fun String.stripHtml(): String {
