@@ -63,9 +63,9 @@ fun plural(n: Int): Int {
     return (if (n % 10 == 1 && n % 100 != 11) 0 else if (n % 10 in 2..4 && (n % 100 < 10 || n % 100 >= 20)) 1 else 2)
 }
 
-fun plural(n: Int, s: Triple<String, String, String>): String {
+fun plural(n: Int, s: Triple<String, String, String>, skipOne: Boolean = true): String {
     val i = plural(n)
-    if (n == 1) {
+    if (n == 1 && skipOne) {
         return s.first
     }
     return when (i) {
@@ -76,8 +76,18 @@ fun plural(n: Int, s: Triple<String, String, String>): String {
 }
 
 enum class TimeUnits {
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY
+    SECOND {
+        override fun plural(value: Int): String = plural(value, Triple("секунду", "секунды", "секунды"), false)
+    },
+    MINUTE {
+        override fun plural(value: Int): String = plural(value, Triple("минуту", "минуты", "минут"), false)
+    },
+    HOUR {
+        override fun plural(value: Int): String = plural(value, Triple("час", "часа", "часов"), false)
+    },
+    DAY {
+        override fun plural(value: Int): String = plural(value, Triple("день", "дня", "дней"), false)
+    };
+
+    abstract fun plural(value: Int): String
 }
