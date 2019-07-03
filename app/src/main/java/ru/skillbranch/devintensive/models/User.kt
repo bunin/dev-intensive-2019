@@ -25,17 +25,16 @@ data class User(
     }
 
     data class Builder(
-        val id: String,
-        var firstName: String?,
-        var lastName: String?,
-        var avatar: String?,
+        var id: String = "",
+        var firstName: String? = null,
+        var lastName: String? = null,
+        var avatar: String? = null,
         var rating: Int = 0,
         var respect: Int = 0,
         var lastVisit: Date? = Date(),
-        var isOnline: Boolean = false,
-        private var lastId: Int = -1
+        var isOnline: Boolean = false
     ) {
-
+        fun id(id: String) = apply { this.id = id }
         fun firstName(firstName: String) = apply { this.firstName = firstName }
         fun lastName(lastName: String) = apply { this.lastName = lastName }
         fun avatar(avatar: String) = apply { this.avatar = avatar }
@@ -44,9 +43,9 @@ data class User(
         fun lastVisit(lastVisit: Date) = apply { this.lastVisit = lastVisit }
         fun isOnline(isOnline: Boolean) = apply { this.isOnline = isOnline }
         fun build(): User {
-            lastId++
+            if (id.isBlank()) id = Factory.lastId++.toString()
             return User(
-                "$lastId", firstName, lastName, avatar, rating, respect, lastVisit, isOnline
+                id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline
             )
         }
     }

@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.extensions
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
@@ -30,22 +31,24 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
 
 fun Date.humanizeDiff(date: Date = Date()): String {
     val isInPast = this.time < date.time
-    val diff = Math.abs(this.time - date.time)
+    val diff = abs(this.time - date.time)
     val diffSeconds = TimeUnit.SECONDS.convert(diff, TimeUnit.MILLISECONDS)
     val diffMinutes = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS)
     val diffHours = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS)
     val diffDays = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
-    if (Math.abs(diffSeconds) <= 1)
+    if (abs(diffSeconds) <= 1)
         return "только что"
-    if (diffMinutes < 1) {
+    if (diffSeconds <= 45) {
         return wrap("несколько секунд", isInPast)
     }
-    if (diffMinutes < 60) {
+//    if (diffSeconds <= 75) {
+//        return minutesDiff(diffMinutes, isInPast)
+//    }
+    if (diffMinutes <= 45)
         return minutesDiff(diffMinutes, isInPast)
-    }
-    if (diffHours < 24)
+    if (diffHours <= 22)
         return wrap(plural(diffHours.toInt(), Triple("час", "часа", "часов")), isInPast)
-    if (diffDays < 365)
+    if (diffDays <= 360)
         return wrap(plural(diffDays.toInt(), Triple("день", "дня", "дней")), isInPast)
     return if (isInPast) "более года назад" else "более чем через год"
 }

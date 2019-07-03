@@ -6,7 +6,7 @@ import android.R.id.message
 object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
-        val parts: List<String>? = fullName?.split(" ")
+        val parts: List<String>? = fullName?.trim()?.split("\\s+".toRegex())
 
         var firstName = parts?.getOrNull(0)
         var lastName = parts?.getOrNull(1)
@@ -104,7 +104,7 @@ object Utils {
                 }
                 if (currentChar.toUpperCase() == from[x].toUpperCase()) {
                     found = true
-                    builder.append(to[x].toUpperCase())
+                    builder.append(to[x].capitalize())
                     break
                 }
             }
@@ -112,18 +112,18 @@ object Utils {
                 builder.append(currentChar)
             }
         }
-        return builder.toString()
+        return builder.toString().replace(Regex("\\s+"), divider)
     }
 
     fun toInitials(firstName: String?, lastName: String?): String? {
         var res = ""
-        if (!firstName.isNullOrEmpty()) {
-            res += firstName[0]
+        if (!firstName.isNullOrBlank()) {
+            res += firstName.trim()[0]
         }
-        if (!lastName.isNullOrEmpty()) {
-            res += lastName[0]
+        if (!lastName.isNullOrBlank()) {
+            res += lastName.trim()[0]
         }
-        return if (res.isEmpty()) null else res.toUpperCase()
+        return if (res.isBlank()) null else res.toUpperCase()
     }
 
 }
