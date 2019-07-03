@@ -77,16 +77,16 @@ fun plural(n: Int, s: Triple<String, String, String>, skipOne: Boolean = true): 
 
 enum class TimeUnits {
     SECOND {
-        override fun plural(value: Int): String = plural(value, Triple("секунду", "секунды", "секунды"), false)
+        override fun plural(value: Int): String = plural(value, Triple("секунду", "секунды", "секунды"), true)
     },
     MINUTE {
-        override fun plural(value: Int): String = plural(value, Triple("минуту", "минуты", "минут"), false)
+        override fun plural(value: Int): String = plural(value, Triple("минуту", "минуты", "минут"), true)
     },
     HOUR {
-        override fun plural(value: Int): String = plural(value, Triple("час", "часа", "часов"), false)
+        override fun plural(value: Int): String = plural(value, Triple("час", "часа", "часов"), true)
     },
     DAY {
-        override fun plural(value: Int): String = plural(value, Triple("день", "дня", "дней"), false)
+        override fun plural(value: Int): String = plural(value, Triple("день", "дня", "дней"), true)
     };
 
     abstract fun plural(value: Int): String
