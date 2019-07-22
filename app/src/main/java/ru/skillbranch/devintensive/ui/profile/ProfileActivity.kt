@@ -141,5 +141,5 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun isValidRepo(value: String): Boolean =
-        value.matches(Regex("^(https://|https://www\\.|www\\.)github\\.com/[^/\\s\\n]+\$"))
+        value.matches(Regex("^(?:https://|https://www\\.|www\\.|^)github\\.com/(?!enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join)[^/\\s\\n]+\$"))
 }
