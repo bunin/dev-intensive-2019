@@ -28,7 +28,7 @@ class ProfileActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // TODO set custom Theme this before super and SetContentView
+        setTheme(R.style.AppTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -118,16 +118,13 @@ class ProfileActivity : AppCompatActivity() {
             background.colorFilter = filter
             setImageDrawable(icon)
         }
-
     }
 
     private fun saveProfileInfo() {
         if (!isValidRepo(et_repository.text.toString())) {
-//            Log.d("M_ProfileActivity: ", "NOT VALID")
             et_repository.text.clear()
             wr_repository.error = "невалидный адрес репозитория"
         } else {
-//            Log.d("M_ProfileActivity: ", "VALID")
             wr_repository.error = null
         }
         Profile(
