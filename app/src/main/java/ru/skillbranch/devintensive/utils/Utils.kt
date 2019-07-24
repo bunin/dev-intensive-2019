@@ -1,5 +1,8 @@
 package ru.skillbranch.devintensive.utils
 
+import android.graphics.drawable.Drawable
+import ru.skillbranch.devintensive.ui.custom.InitalsDrawable
+
 object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -17,7 +20,7 @@ object Utils {
         return firstName to lastName
     }
 
-    fun transliteration(payload: String, divider: String = " "): String {
+    fun transliteration(payload: String, divider: String = "_"): String {
         val from = arrayListOf(
             ' ',
             'а',
@@ -91,7 +94,7 @@ object Utils {
             "ya"
         )
         val builder = StringBuilder()
-        for (currentChar in payload) {
+        for (currentChar in payload.trim()) {
             var found = false
             for (x in from.indices) {
                 if (currentChar == from[x]) {
@@ -121,6 +124,16 @@ object Utils {
             res += lastName.trim()[0]
         }
         return if (res.isBlank()) null else res.toUpperCase()
+    }
+
+    fun getAvatarDrawable(firstName: String?, lastName: String?): Drawable? {
+        val i = toInitials(firstName, lastName)
+        return if (i.isNullOrBlank()) {
+            null
+        } else {
+            InitalsDrawable.setText(i)
+            InitalsDrawable
+        }
     }
 
 }
