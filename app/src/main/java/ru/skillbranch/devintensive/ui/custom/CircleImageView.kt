@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.widget.ImageView
-import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import ru.skillbranch.devintensive.R
@@ -52,29 +51,6 @@ class CircleImageView @JvmOverloads constructor(
 
             field = disableCircularTransformation
             initializeBitmap()
-        }
-
-    private var borderColor: Int
-        get() = mBorderColor
-        set(@ColorInt borderColor) {
-            if (borderColor == mBorderColor) {
-                return
-            }
-
-            mBorderColor = borderColor
-            mBorderPaint.color = mBorderColor
-            invalidate()
-        }
-
-    var borderWidth: Int
-        get() = mBorderWidth
-        set(borderWidth) {
-            if (borderWidth == mBorderWidth) {
-                return
-            }
-
-            mBorderWidth = borderWidth
-            setup()
         }
 
     init {
@@ -152,7 +128,7 @@ class CircleImageView @JvmOverloads constructor(
         ReplaceWith("borderColor = context.resources.getColor(borderColorRes)")
     )
     fun setBorderColorResource(@ColorRes borderColorRes: Int) {
-        borderColor = context.resources.getColor(borderColorRes)
+        setBorderColor(borderColorRes)
     }
 
     override fun setImageBitmap(bm: Bitmap) {
@@ -206,7 +182,9 @@ class CircleImageView @JvmOverloads constructor(
             val bitmap: Bitmap = if (drawable is ColorDrawable) {
                 Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG)
             } else {
-                Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, BITMAP_CONFIG)
+                val w = if (drawable.intrinsicWidth > 0) drawable.intrinsicWidth else drawable.bounds.width()
+                val h = if (drawable.intrinsicHeight > 0) drawable.intrinsicHeight else drawable.bounds.height()
+                Bitmap.createBitmap(w, h, BITMAP_CONFIG)
             }
 
             val canvas = Canvas(bitmap)
@@ -306,6 +284,42 @@ class CircleImageView @JvmOverloads constructor(
         mShaderMatrix.postTranslate((dx + 0.5f).toInt() + mDrawableRect.left, (dy + 0.5f).toInt() + mDrawableRect.top)
 
         mBitmapShader!!.setLocalMatrix(mShaderMatrix)
+    }
+
+    fun getBorderWitdth(): Int {
+        return mBorderWidth
+    }
+
+    fun setBorderWidth(dp: Int) {
+        if (dp == mBorderWidth) {
+            return
+        }
+        mBorderWidth = dp
+        setup()
+    }
+
+    fun getBorderColor(): Int {
+        return mBorderColor
+    }
+
+    fun setBorderColor(@ColorRes colorId: Int) {
+        val c = context.resources.getColor(colorId)
+        if (mBorderColor == c) {
+            return
+        }
+        mBorderColor = c
+        mBorderPaint.color = mBorderColor
+        invalidate()
+    }
+
+    fun setBorderColor(hex: String) {
+        val c = Color.parseColor(hex)
+        if (c == mBorderColor) {
+            return
+        }
+        mBorderColor = c
+        mBorderPaint.color = mBorderColor
+        invalidate()
     }
 
     companion object {
