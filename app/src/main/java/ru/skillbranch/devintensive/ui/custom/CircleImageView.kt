@@ -286,7 +286,7 @@ class CircleImageView @JvmOverloads constructor(
         mBitmapShader!!.setLocalMatrix(mShaderMatrix)
     }
 
-    fun getBorderWitdth(): Int {
+    fun getBorderWidth(): Int {
         return mBorderWidth
     }
 
