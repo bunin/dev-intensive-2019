@@ -14,19 +14,20 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
-import ru.skillbranch.devintensive.ui.custom.InitalsDrawable
+import ru.skillbranch.devintensive.ui.custom.InitialsDrawable
 import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
 
     companion object {
-        const val IS_EDIT_MODE = "IS_EDIT_MODE"
+        private const val IS_EDIT_MODE = "IS_EDIT_MODE"
     }
 
     private lateinit var viewModel: ProfileViewModel
-    var isEditMode = false
-    lateinit var viewFields: Map<String, TextView>
+    private var isEditMode = false
+    private var initialsDrawable = InitialsDrawable()
+    private lateinit var viewFields: Map<String, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -54,7 +55,7 @@ class ProfileActivity : AppCompatActivity() {
         delegate.setLocalNightMode(mode)
         val color = TypedValue()
         if (theme.resolveAttribute(R.attr.colorAccent, color, true)) {
-            InitalsDrawable.setBgColor(color.data)
+            initialsDrawable.setBgColor(color.data)
         }
         viewModel.getProfileData().value.also {
             drawInitials(it?.firstName, it?.lastName)
@@ -64,7 +65,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun updateUI(profile: Profile) {
         profile.toMap().also {
             for ((k, v) in viewFields) {
-                v.text = it[k].toString()
+                v.text = it[k]
             }
         }
         drawInitials(profile.firstName, profile.lastName)
@@ -142,16 +143,17 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun drawInitials(f: String?, l: String?) {
-        val d = Utils.getAvatarDrawable(f, l)
-        if (d == null) {
+        val i = Utils.toInitials(f, l)
+        if (i == null) {
             iv_avatar.setImageResource(R.drawable.avatar_default)
             return
         }
-        iv_avatar.setImageDrawable(d)
+        initialsDrawable.setText(i)
+        iv_avatar.setImageDrawable(initialsDrawable)
     }
 
     private fun validateRepo() {
-        if (!isValidRepo(et_repository.text.toString())) {
+        if (!Utils.isValidRepo(et_repository.text.toString())) {
             et_repository.text.clear()
             wr_repository.error = "невалидный адрес репозитория"
             wr_repository.isErrorEnabled = true
@@ -161,6 +163,4 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun isValidRepo(value: String): Boolean =
-        value.matches(Regex("^(?:https://|https://www\\.|www\\.|^)github\\.com/(?!enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join)[^/\\s\\n]+\$"))
 }

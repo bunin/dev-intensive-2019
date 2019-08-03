@@ -1,8 +1,5 @@
 package ru.skillbranch.devintensive.utils
 
-import android.graphics.drawable.Drawable
-import ru.skillbranch.devintensive.ui.custom.InitalsDrawable
-
 object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -126,14 +123,7 @@ object Utils {
         return if (res.isBlank()) null else res.toUpperCase()
     }
 
-    fun getAvatarDrawable(firstName: String?, lastName: String?): Drawable? {
-        val i = toInitials(firstName, lastName)
-        return if (i.isNullOrBlank()) {
-            null
-        } else {
-            InitalsDrawable.setText(i)
-            InitalsDrawable
-        }
-    }
+    fun isValidRepo(value: String): Boolean =
+        value.matches(Regex("^(?:https://|https://www\\.|www\\.|^)github\\.com/(?!enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join)[^/\\s\\n]+\$"))
 
 }

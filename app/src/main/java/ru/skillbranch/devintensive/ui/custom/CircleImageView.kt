@@ -20,30 +20,30 @@ class CircleImageView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
 
-    private val mDrawableRect = RectF()
-    private val mBorderRect = RectF()
+    private val drawableRect = RectF()
+    private val borderRect = RectF()
 
-    private val mShaderMatrix = Matrix()
-    private val mBitmapPaint = Paint()
-    private val mBorderPaint = Paint()
-    private val mCircleBackgroundPaint = Paint()
+    private val shaderMatrix = Matrix()
+    private val bitmapPaint = Paint()
+    private val borderPaint = Paint()
+    private val circleBackgroundPaint = Paint()
 
-    private var mBorderColor = DEFAULT_BORDER_COLOR
-    private var mBorderWidth = DEFAULT_BORDER_WIDTH
+    private var borderColor = DEFAULT_BORDER_COLOR
+    private var borderWidth = DEFAULT_BORDER_WIDTH
 
-    private var mBitmap: Bitmap? = null
-    private var mBitmapShader: BitmapShader? = null
-    private var mBitmapWidth: Int = 0
-    private var mBitmapHeight: Int = 0
+    private var bitmap: Bitmap? = null
+    private var bitmapShader: BitmapShader? = null
+    private var bitmapWidth: Int = 0
+    private var bitmapHeight: Int = 0
 
-    private var mDrawableRadius: Float = 0.toFloat()
-    private var mBorderRadius: Float = 0.toFloat()
+    private var drawableRadius: Float = 0.toFloat()
+    private var borderRadius: Float = 0.toFloat()
 
-    private var mColorFilter: ColorFilter? = null
+    private var colorFilter: ColorFilter? = null
 
-    private var mReady: Boolean = false
-    private var mSetupPending: Boolean = false
-    private var mBorderOverlay: Boolean = false
+    private var ready: Boolean = false
+    private var setupPending: Boolean = false
+    private var borderOverlay: Boolean = false
     private var isDisableCircularTransformation: Boolean = false
         set(disableCircularTransformation) {
             if (isDisableCircularTransformation == disableCircularTransformation) {
@@ -58,8 +58,8 @@ class CircleImageView @JvmOverloads constructor(
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyleAttr, 0)
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
-        mBorderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
+        borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
+        borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
 
         a.recycle()
 
@@ -68,11 +68,11 @@ class CircleImageView @JvmOverloads constructor(
 
     private fun init() {
         super.setScaleType(SCALE_TYPE)
-        mReady = true
+        ready = true
 
-        if (mSetupPending) {
+        if (setupPending) {
             setup()
-            mSetupPending = false
+            setupPending = false
         }
     }
 
@@ -98,13 +98,13 @@ class CircleImageView @JvmOverloads constructor(
             return
         }
 
-        if (mBitmap == null) {
+        if (bitmap == null) {
             return
         }
 
-        canvas.drawCircle(mDrawableRect.centerX(), mDrawableRect.centerY(), mDrawableRadius, mBitmapPaint)
-        if (mBorderWidth > 0) {
-            canvas.drawCircle(mBorderRect.centerX(), mBorderRect.centerY(), mBorderRadius, mBorderPaint)
+        canvas.drawCircle(drawableRect.centerX(), drawableRect.centerY(), drawableRadius, bitmapPaint)
+        if (borderWidth > 0) {
+            canvas.drawCircle(borderRect.centerX(), borderRect.centerY(), borderRadius, borderPaint)
         }
     }
 
@@ -153,21 +153,21 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     override fun setColorFilter(cf: ColorFilter) {
-        if (cf === mColorFilter) {
+        if (cf === colorFilter) {
             return
         }
 
-        mColorFilter = cf
+        colorFilter = cf
         applyColorFilter()
         invalidate()
     }
 
     override fun getColorFilter(): ColorFilter? {
-        return mColorFilter
+        return colorFilter
     }
 
     private fun applyColorFilter() {
-        mBitmapPaint.colorFilter = mColorFilter
+        bitmapPaint.colorFilter = colorFilter
     }
 
     private fun getBitmapFromDrawable(drawable: Drawable?): Bitmap? {
@@ -200,7 +200,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     private fun initializeBitmap() {
-        mBitmap = if (isDisableCircularTransformation) {
+        bitmap = if (isDisableCircularTransformation) {
             null
         } else {
             getBitmapFromDrawable(drawable)
@@ -209,8 +209,8 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     private fun setup() {
-        if (!mReady) {
-            mSetupPending = true
+        if (!ready) {
+            setupPending = true
             return
         }
 
@@ -218,36 +218,36 @@ class CircleImageView @JvmOverloads constructor(
             return
         }
 
-        if (mBitmap == null) {
+        if (bitmap == null) {
             invalidate()
             return
         }
 
-        mBitmapShader = BitmapShader(mBitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        bitmapShader = BitmapShader(bitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 
-        mBitmapPaint.isAntiAlias = true
-        mBitmapPaint.shader = mBitmapShader
+        bitmapPaint.isAntiAlias = true
+        bitmapPaint.shader = bitmapShader
 
-        mBorderPaint.style = Paint.Style.STROKE
-        mBorderPaint.isAntiAlias = true
-        mBorderPaint.color = mBorderColor
-        mBorderPaint.strokeWidth = mBorderWidth.toFloat()
+        borderPaint.style = Paint.Style.STROKE
+        borderPaint.isAntiAlias = true
+        borderPaint.color = borderColor
+        borderPaint.strokeWidth = borderWidth.toFloat()
 
-        mCircleBackgroundPaint.style = Paint.Style.FILL
-        mCircleBackgroundPaint.isAntiAlias = true
+        circleBackgroundPaint.style = Paint.Style.FILL
+        circleBackgroundPaint.isAntiAlias = true
 
-        mBitmapHeight = mBitmap!!.height
-        mBitmapWidth = mBitmap!!.width
+        bitmapHeight = bitmap!!.height
+        bitmapWidth = bitmap!!.width
 
-        mBorderRect.set(calculateBounds())
-        mBorderRadius =
-            min((mBorderRect.height() - mBorderWidth) / 2.0f, (mBorderRect.width() - mBorderWidth) / 2.0f)
+        borderRect.set(calculateBounds())
+        borderRadius =
+            min((borderRect.height() - borderWidth) / 2.0f, (borderRect.width() - borderWidth) / 2.0f)
 
-        mDrawableRect.set(mBorderRect)
-        if (!mBorderOverlay && mBorderWidth > 0) {
-            mDrawableRect.inset(mBorderWidth - 1.0f, mBorderWidth - 1.0f)
+        drawableRect.set(borderRect)
+        if (!borderOverlay && borderWidth > 0) {
+            drawableRect.inset(borderWidth - 1.0f, borderWidth - 1.0f)
         }
-        mDrawableRadius = min(mDrawableRect.height() / 2.0f, mDrawableRect.width() / 2.0f)
+        drawableRadius = min(drawableRect.height() / 2.0f, drawableRect.width() / 2.0f)
 
         applyColorFilter()
         updateShaderMatrix()
@@ -271,55 +271,55 @@ class CircleImageView @JvmOverloads constructor(
         var dx = 0f
         var dy = 0f
 
-        mShaderMatrix.set(null)
+        shaderMatrix.set(null)
 
-        if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
-            scale = mDrawableRect.height() / mBitmapHeight.toFloat()
-            dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f
+        if (bitmapWidth * drawableRect.height() > drawableRect.width() * bitmapHeight) {
+            scale = drawableRect.height() / bitmapHeight.toFloat()
+            dx = (drawableRect.width() - bitmapWidth * scale) * 0.5f
         } else {
-            scale = mDrawableRect.width() / mBitmapWidth.toFloat()
-            dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f
+            scale = drawableRect.width() / bitmapWidth.toFloat()
+            dy = (drawableRect.height() - bitmapHeight * scale) * 0.5f
         }
 
-        mShaderMatrix.setScale(scale, scale)
-        mShaderMatrix.postTranslate((dx + 0.5f).toInt() + mDrawableRect.left, (dy + 0.5f).toInt() + mDrawableRect.top)
+        shaderMatrix.setScale(scale, scale)
+        shaderMatrix.postTranslate((dx + 0.5f).toInt() + drawableRect.left, (dy + 0.5f).toInt() + drawableRect.top)
 
-        mBitmapShader!!.setLocalMatrix(mShaderMatrix)
+        bitmapShader!!.setLocalMatrix(shaderMatrix)
     }
 
     fun getBorderWidth(): Int {
-        return mBorderWidth
+        return borderWidth
     }
 
     fun setBorderWidth(@Dimension dp: Int) {
-        if (dp == mBorderWidth) {
+        if (dp == borderWidth) {
             return
         }
-        mBorderWidth = dp
+        borderWidth = dp
         setup()
     }
 
     fun getBorderColor(): Int {
-        return mBorderColor
+        return borderColor
     }
 
     fun setBorderColor(@ColorRes colorId: Int) {
         val c = context.resources.getColor(colorId)
-        if (mBorderColor == c) {
+        if (borderColor == c) {
             return
         }
-        mBorderColor = c
-        mBorderPaint.color = mBorderColor
+        borderColor = c
+        borderPaint.color = borderColor
         invalidate()
     }
 
     fun setBorderColor(hex: String) {
         val c = Color.parseColor(hex)
-        if (c == mBorderColor) {
+        if (c == borderColor) {
             return
         }
-        mBorderColor = c
-        mBorderPaint.color = mBorderColor
+        borderColor = c
+        borderPaint.color = borderColor
         invalidate()
     }
 

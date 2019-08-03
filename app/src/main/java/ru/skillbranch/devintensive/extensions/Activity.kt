@@ -4,24 +4,23 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.util.DisplayMetrics
+import android.view.View
 import android.view.inputmethod.InputMethodManager
-import kotlinx.android.synthetic.main.activity_profile.*
+
+const val minHeightOverlap = 100
 
 fun Activity.hideKeyboard() {
     val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputManager.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.SHOW_FORCED)
 }
 
-fun Activity.isKeyboardOpen(): Boolean {
-    return getDiff() > 100
-}
+fun Activity.isKeyboardOpen(): Boolean = getOverlappedHeight() > minHeightOverlap
 
-fun Activity.isKeyboardClosed(): Boolean {
-    return getDiff() <= 100
-}
+fun Activity.isKeyboardClosed(): Boolean = getOverlappedHeight() <= minHeightOverlap
 
-fun Activity.getDiff(): Float {
+private fun Activity.getOverlappedHeight(): Float {
     val r2 = Rect()
+    val rootView: View = findViewById(android.R.id.content)
     rootView.getWindowVisibleDisplayFrame(r2)
 
     return convertPixelsToDp((rootView.height - (r2.bottom - r2.top)).toFloat())

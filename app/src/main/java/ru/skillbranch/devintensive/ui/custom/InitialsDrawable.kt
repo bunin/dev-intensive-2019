@@ -7,9 +7,9 @@ import androidx.core.graphics.toRect
 import ru.skillbranch.devintensive.App
 import ru.skillbranch.devintensive.R
 
-object InitalsDrawable : Drawable() {
+class InitialsDrawable : Drawable() {
 
-    private var bgColor: Int = -500033
+    private var bgColor: Int? = null
     private var text: String = ""
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
@@ -29,13 +29,15 @@ object InitalsDrawable : Drawable() {
         val centerY = canvas.clipBounds.centerY()
         val textWidth = textPaint.measureText(text) * 0.5f
         val textBaseLineHeight = textPaint.fontMetrics.ascent * -0.4f
-        paint.color = bgColor
+        if (bgColor !== null) {
+            paint.color = bgColor!!
+        }
         canvas.drawRect(rectF, paint)
         canvas.drawText(text, centerX - textWidth, centerY + textBaseLineHeight, textPaint)
     }
 
     override fun setAlpha(p0: Int) {
-
+        throw UnsupportedOperationException()
     }
 
     override fun getOpacity(): Int {
@@ -43,6 +45,7 @@ object InitalsDrawable : Drawable() {
     }
 
     override fun setColorFilter(p0: ColorFilter?) {
+        throw UnsupportedOperationException()
     }
 
     fun setText(s: String) {
