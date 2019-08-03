@@ -130,12 +130,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
-        if (!isValidRepo(et_repository.text.toString())) {
-            et_repository.text.clear()
-            wr_repository.error = "невалидный адрес репозитория"
-        } else {
-            wr_repository.error = null
-        }
+        validateRepo()
         Profile(
             firstName = et_first_name.text.toString(),
             lastName = et_last_name.text.toString(),
@@ -153,6 +148,17 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
         iv_avatar.setImageDrawable(d)
+    }
+
+    private fun validateRepo() {
+        if (!isValidRepo(et_repository.text.toString())) {
+            et_repository.text.clear()
+            wr_repository.error = "невалидный адрес репозитория"
+            wr_repository.isErrorEnabled = true
+        } else {
+            wr_repository.isErrorEnabled = false
+            wr_repository.error = null
+        }
     }
 
     private fun isValidRepo(value: String): Boolean =

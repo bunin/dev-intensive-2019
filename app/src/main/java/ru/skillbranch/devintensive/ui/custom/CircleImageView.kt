@@ -9,6 +9,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.annotation.ColorRes
+import androidx.annotation.Dimension
 import androidx.annotation.DrawableRes
 import ru.skillbranch.devintensive.R
 import kotlin.math.min
@@ -290,7 +291,7 @@ class CircleImageView @JvmOverloads constructor(
         return mBorderWidth
     }
 
-    fun setBorderWidth(dp: Int) {
+    fun setBorderWidth(@Dimension dp: Int) {
         if (dp == mBorderWidth) {
             return
         }
