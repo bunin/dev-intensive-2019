@@ -4,6 +4,8 @@ import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
@@ -96,6 +98,18 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
+        (et_repository as EditText).addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                validateRepo()
+            }
+        }
+        )
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -131,7 +145,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
-        validateRepo()
+        if (!validateRepo()) {
+            et_repository.text.clear()
+        }
         Profile(
             firstName = et_first_name.text.toString(),
             lastName = et_last_name.text.toString(),
@@ -152,14 +168,15 @@ class ProfileActivity : AppCompatActivity() {
         iv_avatar.setImageDrawable(initialsDrawable)
     }
 
-    private fun validateRepo() {
-        if (!Utils.isValidRepo(et_repository.text.toString())) {
-            et_repository.text.clear()
-            wr_repository.error = "невалидный адрес репозитория"
+    private fun validateRepo(): Boolean {
+        return if (!Utils.isValidRepo(et_repository.text.toString())) {
+            wr_repository.error = "Невалидный адрес репозитория"
             wr_repository.isErrorEnabled = true
+            false
         } else {
             wr_repository.isErrorEnabled = false
             wr_repository.error = null
+            true
         }
     }
 
