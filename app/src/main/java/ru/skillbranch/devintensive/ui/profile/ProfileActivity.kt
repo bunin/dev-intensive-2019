@@ -126,9 +126,11 @@ class ProfileActivity : AppCompatActivity() {
         wr_about.isCounterEnabled = isEdit
 
         with(btn_edit) {
+            val color = TypedValue()
+            theme.resolveAttribute(R.attr.colorAccent, color, true)
             val filter: ColorFilter? = if (isEdit) {
                 PorterDuffColorFilter(
-                    resources.getColor(R.color.color_accent, theme),
+                    color.data,
                     PorterDuff.Mode.SRC_IN
                 )
             } else {
