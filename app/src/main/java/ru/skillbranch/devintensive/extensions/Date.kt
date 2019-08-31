@@ -53,6 +53,13 @@ fun Date.humanizeDiff(date: Date = Date()): String {
     return if (isInPast) "более года назад" else "более чем через год"
 }
 
+fun Date.shortFormat(): String {
+    val pattern = if (this.isSameDay(Date())) "HH:mm" else "dd.MM.yy"
+    return format(pattern)
+}
+
+fun Date.isSameDay(date: Date): Boolean = this.time / DAY == date.time / DAY
+
 private fun minutesDiff(n: Long, past: Boolean): String {
     return wrap(plural(n.toInt(), Triple("минуту", "минуты", "минут")), past)
 }
@@ -77,16 +84,20 @@ fun plural(n: Int, s: Triple<String, String, String>, skipOne: Boolean = true): 
 
 enum class TimeUnits {
     SECOND {
-        override fun plural(value: Int): String = plural(value, Triple("секунду", "секунды", "секунд"), false)
+        override fun plural(value: Int): String =
+            plural(value, Triple("секунду", "секунды", "секунд"), false)
     },
     MINUTE {
-        override fun plural(value: Int): String = plural(value, Triple("минуту", "минуты", "минут"), false)
+        override fun plural(value: Int): String =
+            plural(value, Triple("минуту", "минуты", "минут"), false)
     },
     HOUR {
-        override fun plural(value: Int): String = plural(value, Triple("час", "часа", "часов"), false)
+        override fun plural(value: Int): String =
+            plural(value, Triple("час", "часа", "часов"), false)
     },
     DAY {
-        override fun plural(value: Int): String = plural(value, Triple("день", "дня", "дней"), false)
+        override fun plural(value: Int): String =
+            plural(value, Triple("день", "дня", "дней"), false)
     };
 
     abstract fun plural(value: Int): String

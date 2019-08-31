@@ -14,7 +14,7 @@ import androidx.annotation.DrawableRes
 import ru.skillbranch.devintensive.R
 import kotlin.math.min
 
-class CircleImageView @JvmOverloads constructor(
+open class CircleImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
