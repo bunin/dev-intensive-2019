@@ -64,6 +64,7 @@ class UserAdapter(val listener: (UserItem) -> Unit) :
                     .clear(iv_avatar_user)
                 iv_avatar_user.setInitials(user.initials ?: "??")
             }
+            itemView.tag = user.id
             sv_indicator.visibility = if (user.isOnline) View.VISIBLE else View.GONE
             tv_user_name.text = user.fullName
             tv_last_activity.text = user.lastActivity

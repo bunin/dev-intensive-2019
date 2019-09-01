@@ -58,10 +58,16 @@ open class CircleImageView @JvmOverloads constructor(
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyleAttr, 0)
 
-        borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
-        borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
-
-        a.recycle()
+        try {
+            borderWidth = a.getDimensionPixelSize(
+                R.styleable.CircleImageView_cv_borderWidth,
+                DEFAULT_BORDER_WIDTH
+            )
+            borderColor =
+                a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
+        } finally {
+            a.recycle()
+        }
 
         init()
     }
@@ -102,7 +108,12 @@ open class CircleImageView @JvmOverloads constructor(
             return
         }
 
-        canvas.drawCircle(drawableRect.centerX(), drawableRect.centerY(), drawableRadius, bitmapPaint)
+        canvas.drawCircle(
+            drawableRect.centerX(),
+            drawableRect.centerY(),
+            drawableRadius,
+            bitmapPaint
+        )
         if (borderWidth > 0) {
             canvas.drawCircle(borderRect.centerX(), borderRect.centerY(), borderRadius, borderPaint)
         }
@@ -183,8 +194,10 @@ open class CircleImageView @JvmOverloads constructor(
             val bitmap: Bitmap = if (drawable is ColorDrawable) {
                 Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG)
             } else {
-                val w = if (drawable.intrinsicWidth > 0) drawable.intrinsicWidth else drawable.bounds.width()
-                val h = if (drawable.intrinsicHeight > 0) drawable.intrinsicHeight else drawable.bounds.height()
+                val w =
+                    if (drawable.intrinsicWidth > 0) drawable.intrinsicWidth else drawable.bounds.width()
+                val h =
+                    if (drawable.intrinsicHeight > 0) drawable.intrinsicHeight else drawable.bounds.height()
                 Bitmap.createBitmap(w, h, BITMAP_CONFIG)
             }
 
@@ -241,7 +254,10 @@ open class CircleImageView @JvmOverloads constructor(
 
         borderRect.set(calculateBounds())
         borderRadius =
-            min((borderRect.height() - borderWidth) / 2.0f, (borderRect.width() - borderWidth) / 2.0f)
+            min(
+                (borderRect.height() - borderWidth) / 2.0f,
+                (borderRect.width() - borderWidth) / 2.0f
+            )
 
         drawableRect.set(borderRect)
         if (!borderOverlay && borderWidth > 0) {
@@ -282,7 +298,10 @@ open class CircleImageView @JvmOverloads constructor(
         }
 
         shaderMatrix.setScale(scale, scale)
-        shaderMatrix.postTranslate((dx + 0.5f).toInt() + drawableRect.left, (dy + 0.5f).toInt() + drawableRect.top)
+        shaderMatrix.postTranslate(
+            (dx + 0.5f).toInt() + drawableRect.left,
+            (dy + 0.5f).toInt() + drawableRect.top
+        )
 
         bitmapShader!!.setLocalMatrix(shaderMatrix)
     }
@@ -304,7 +323,7 @@ open class CircleImageView @JvmOverloads constructor(
     }
 
     fun setBorderColor(@ColorRes colorId: Int) {
-        val c = context.resources.getColor(colorId)
+        val c = context.resources.getColor(colorId, context.theme)
         if (borderColor == c) {
             return
         }

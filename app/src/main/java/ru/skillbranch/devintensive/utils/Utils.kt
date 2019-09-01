@@ -2,7 +2,14 @@ package ru.skillbranch.devintensive.utils
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.util.TypedValue
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import kotlin.math.min
 
 
 object Utils {
@@ -150,4 +157,27 @@ object Utils {
         return color
     }
 
+    fun roundDrawable(r: Resources, drawable: Drawable?): Drawable? {
+        if (drawable == null) {
+            return null
+        }
+        try {
+            val viewSize = min(drawable.bounds.width(), drawable.bounds.height())
+            val bitmap = Bitmap.createBitmap(
+                viewSize,
+                viewSize,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, viewSize, viewSize)
+            drawable.draw(canvas)
+            val roundBitmap = RoundedBitmapDrawableFactory.create(r, bitmap)
+            roundBitmap.isCircular = true
+            return roundBitmap
+        } catch (e: Exception) {
+            Log.e("M_Utils: ", "$e")
+            return null
+        }
+
+    }
 }

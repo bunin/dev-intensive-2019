@@ -73,7 +73,7 @@ class ArchiveActivity : AppCompatActivity() {
             true
         )
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(resources.getDrawable(R.drawable.id_divider))
+        divider.setDrawable(resources.getDrawable(R.drawable.id_divider, theme))
         val touchCallback = ChatItemTouchHelperCallback(true, chatAdapter) {
             viewModel.restoreFromArchive(it.id)
             val s = Snackbar.make(

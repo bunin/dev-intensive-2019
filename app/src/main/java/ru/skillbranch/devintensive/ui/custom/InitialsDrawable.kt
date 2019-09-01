@@ -26,7 +26,7 @@ class InitialsDrawable(var bgColor: Int? = null) : Drawable() {
 
 
     override fun draw(canvas: Canvas) {
-        canvas.getClipBounds(bounds)
+//        canvas.getClipBounds(bounds)
         textPaint.textSize = min(bounds.height(), bounds.width()) * textSizeFactor
         val centerX = bounds.centerX()
         val centerY = bounds.centerY()
@@ -54,6 +54,11 @@ class InitialsDrawable(var bgColor: Int? = null) : Drawable() {
     fun setText(s: String) {
         text = s
 //        invalidateSelf()
+    }
+
+    fun setBouds(b: RectF) {
+        rectF.set(b)
+        bounds = rectF.toRect()
     }
 
     fun setBgColor(c: Int) {

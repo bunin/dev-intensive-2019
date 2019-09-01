@@ -2,6 +2,7 @@ package ru.skillbranch.devintensive.ui.group
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.UserItem
 import ru.skillbranch.devintensive.ui.adapters.UserAdapter
+import ru.skillbranch.devintensive.ui.custom.AvatarImageView
 import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.GroupViewModel
 
@@ -50,7 +52,7 @@ class GroupActivity : AppCompatActivity() {
     private fun initViews() {
         userAdapter = UserAdapter { viewModel.handleSelectedItem(it.id) }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(resources.getDrawable(R.drawable.id_divider))
+        divider.setDrawable(resources.getDrawable(R.drawable.id_divider, theme))
         with(rv_user_list) {
             adapter = userAdapter
             layoutManager = LinearLayoutManager(this@GroupActivity)
@@ -99,8 +101,10 @@ class GroupActivity : AppCompatActivity() {
 
     private fun addChipToGroup(user: UserItem) {
         val chip = Chip(this).apply {
+            chipIconTint
             text = user.fullName
-            chipIcon = resources.getDrawable(R.drawable.avatar_default, theme)
+            chipIcon =
+                getUserAvatar(user.id) ?: resources.getDrawable(R.drawable.avatar_default, theme)
             isCloseIconVisible = true
             tag = user.id
             isClickable = true
@@ -128,5 +132,11 @@ class GroupActivity : AppCompatActivity() {
         }
 
         users.forEach { (_, v) -> addChipToGroup(v) }
+    }
+
+    private fun getUserAvatar(id: String): Drawable? {
+        val v = rv_user_list.findViewWithTag<View>(id)
+        val a: AvatarImageView = v.findViewById(R.id.iv_avatar_user)
+        return Utils.roundDrawable(resources, a.drawable)
     }
 }
