@@ -185,7 +185,8 @@ class ChatAdapter(val listener: (ChatItem) -> Unit, val isArchive: Boolean = fal
             }
             with(tv_message_author_archive) {
                 visibility = if (item.author != null) View.VISIBLE else View.GONE
-                text = item.author
+                text =
+                    itemView.context.resources.getString(R.string.archive_item_author, item.author)
             }
             tv_message_archive.text = item.shortDescription ?: "Сообщений ещё нет"
             with(tv_counter_archive) {
