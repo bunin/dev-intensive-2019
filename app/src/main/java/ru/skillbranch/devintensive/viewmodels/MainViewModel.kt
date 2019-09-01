@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
@@ -25,9 +24,10 @@ class MainViewModel : ViewModel() {
         val result = MediatorLiveData<List<ChatItem>>()
         val filterF = {
             val queryStr = query.value!!
-            val chats = chats.value!!
-            result.value = if (queryStr.isEmpty()) handleArchiveRow(chats)
+            val chats = handleArchiveRow(chats.value!!)
+            result.value = if (queryStr.isEmpty()) chats
             else chats.filter { it.title.contains(queryStr, true) }
+//            result.value = handleArchiveRow(result.value!!)
         }
         result.addSource(chats) { filterF.invoke() }
         result.addSource(query) { filterF.invoke() }
@@ -52,14 +52,13 @@ class MainViewModel : ViewModel() {
 
     private fun handleArchiveRow(chats: List<ChatItem>): List<ChatItem> {
         val archiveData = chatRepository.getArchiveData()
-        Log.d("M_MainViewModel: ", "handleArchiveRow ${archiveData.archivedCount}")
         if (archiveData.archivedCount < 1) return chats
         val f = listOf(
             ChatItem(
                 ChatRepository.ARCHIVE_ITEM_ID,
                 null,
                 "",
-                "",
+                "Архив чатов",
                 archiveData.archivedLastMessage,
                 archiveData.archivedUnreadCount,
                 archiveData.archivedLastDate?.shortFormat(),
