@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.models.data
 import androidx.annotation.VisibleForTesting
 import ru.skillbranch.devintensive.extensions.shortFormat
 import ru.skillbranch.devintensive.models.BaseMessage
+import ru.skillbranch.devintensive.repositories.ChatRepository
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
@@ -34,20 +35,33 @@ data class Chat(
     private fun isSingle(): Boolean = members.size == 1
 
     fun toChatItem(): ChatItem {
-        return if (isSingle()) {
-            val user = members.first()
-            ChatItem(
+        return when {
+            id == ChatRepository.ARCHIVE_ITEM_ID -> ChatItem(
                 id,
-                user.avatar,
-                Utils.toInitials(user.firstName, user.lastName) ?: "??",
-                "${user.firstName ?: ""} ${user.lastName ?: ""}",
-                lastMessageShort().first,
-                unreadableMessageCount(),
-                lastMessageDate()?.shortFormat(),
-                user.isOnline
+                null,
+                "??",
+                "title",
+                "shortDesc",
+                100,
+                "yesterday",
+                false,
+                ChatType.ARCHIVE,
+                "author"
             )
-        } else {
-            ChatItem(
+            isSingle() -> {
+                val user = members.first()
+                ChatItem(
+                    id,
+                    user.avatar,
+                    Utils.toInitials(user.firstName, user.lastName) ?: "??",
+                    "${user.firstName.orEmpty()} ${user.lastName.orEmpty()}",
+                    lastMessageShort().first,
+                    unreadableMessageCount(),
+                    lastMessageDate()?.shortFormat(),
+                    user.isOnline
+                )
+            }
+            else -> ChatItem(
                 id,
                 null,
                 "",
