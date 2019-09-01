@@ -10,9 +10,13 @@
     <color name="color_gray_dark">#675F7F</color>
     <color name="color_gray_light">#ECECEC</color>
 
-    <color name="color_divider_dark">#1F0000</color>
+    <color name="color_divider_dark">#1F000000</color>
     <color name="color_divider_light">#1FFFFFFF</color>
     <color name="color_custom_white">#FFF</color>
     <color name="color_indicator">#581F99</color>
     <color name="color_green">#4FD149</color>
+
+    <color name="color_toolbar_night">#272727</color>
+    <color name="color_bg_night">#1D1D1D</color>
+    <color name="color_chip_group_bg_night">#121212</color>
 </resources>

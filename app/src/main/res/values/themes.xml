@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -14,6 +13,22 @@
 
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/ActivityTransitions</item>
+
+        <item name="colorToolbarBg">@color/color_primary</item>
+        <item name="colorItemBg">@color/color_custom_white</item>
+        <item name="colorItemMessage">@color/color_gray_dark</item>
+        <item name="colorOnlineIndicator">@color/color_green</item>
+        <item name="colorArchiveIconBg">@color/color_gray</item>
+        <item name="colorMessageCounter">@color/color_indicator</item>
+        <item name="colorChatItemsDivider">@color/color_divider_dark</item>
+        <item name="colorSwipeBg">@color/color_primary_dark</item>
+        <item name="colorSelectedIcon">@color/color_primary</item>
+        <item name="colorChipGroupBg">@color/color_custom_white</item>
+        <item name="colorChipBg">@color/color_primary_light</item>
+        <item name="colorChipClose">@color/color_custom_white</item>
+        <item name="colorSnackBarBg">@color/color_primary</item>
+        <item name="colorSnackBarText">@color/color_custom_white</item>
+
 
     </style>
 

@@ -1,5 +1,10 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
+import android.content.res.Configuration
+import android.util.TypedValue
+
+
 object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -125,5 +130,24 @@ object Utils {
 
     fun isValidRepo(value: String): Boolean =
         value.matches(Regex("^(?:https://|https://www\\.|www\\.|^)github\\.com/(?!enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join)[^/\\s\\n]+\$"))
+
+
+    fun isNightMode(ctx: Context): Boolean {
+        val currentNightMode =
+            ctx.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
+
+    }
+
+    fun getColor(ctx: Context, id: Int): Int {
+        val typedValue = TypedValue()
+        val a = ctx.obtainStyledAttributes(typedValue.data, intArrayOf(id))
+        val color = a.getColor(0, 0)
+        a.recycle()
+        return color
+    }
 
 }

@@ -3,7 +3,6 @@ package ru.skillbranch.devintensive.ui.group
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.UserItem
 import ru.skillbranch.devintensive.ui.adapters.UserAdapter
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.GroupViewModel
 
 class GroupActivity : AppCompatActivity() {
@@ -27,13 +27,11 @@ class GroupActivity : AppCompatActivity() {
     private lateinit var viewModel: GroupViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("M_GroupActivity: ", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
         initToolbar()
         initViews()
         initViewModel()
-        Log.d("M_GroupActivity: ", "onCreateEnd")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -52,6 +50,7 @@ class GroupActivity : AppCompatActivity() {
     private fun initViews() {
         userAdapter = UserAdapter { viewModel.handleSelectedItem(it.id) }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(resources.getDrawable(R.drawable.id_divider))
         with(rv_user_list) {
             adapter = userAdapter
             layoutManager = LinearLayoutManager(this@GroupActivity)
@@ -105,8 +104,10 @@ class GroupActivity : AppCompatActivity() {
             isCloseIconVisible = true
             tag = user.id
             isClickable = true
-            closeIconTint = ColorStateList.valueOf(Color.WHITE)
-            chipBackgroundColor = ColorStateList.valueOf(getColor(R.color.color_primary_light))
+            closeIconTint =
+                ColorStateList.valueOf(Utils.getColor(this.context, R.attr.colorChipClose))
+            chipBackgroundColor =
+                ColorStateList.valueOf(Utils.getColor(this.context, R.attr.colorChipBg))
             setTextColor(Color.WHITE)
         }
         chip.setOnCloseIconClickListener { viewModel.handleRemoveChip(it.tag.toString()) }
@@ -115,6 +116,7 @@ class GroupActivity : AppCompatActivity() {
 
     private fun updateChips(listUsers: List<UserItem>) {
         chip_group.visibility = if (listUsers.isEmpty()) View.GONE else View.VISIBLE
+        chip_group_wrap.visibility = chip_group.visibility
 
         val users = listUsers
             .associateBy { user -> user.id }

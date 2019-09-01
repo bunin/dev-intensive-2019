@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_size"
-    android:background="@android:color/white"
+    android:background="?colorItemBg"
     android:padding="@dimen/spacing_normal_16">
 
     <ImageView
@@ -12,7 +12,7 @@
         android:layout_height="@dimen/avatar_item_size"
         android:layout_alignParentStart="true"
         android:layout_marginEnd="@dimen/spacing_normal_16"
-        android:background="@color/color_gray"
+        android:background="?colorArchiveIconBg"
         android:padding="@dimen/spacing_small_8"
         android:src="@drawable/ic_archive_black_24dp" />
 
@@ -26,7 +26,7 @@
         android:fontFamily="sans-serif-medium"
         android:maxLines="1"
         android:text="@string/archive_item_title"
-        android:textColor="@color/color_primary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="14sp" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginEnd="@dimen/spacing_tiny_4"
         android:layout_toEndOf="@id/iv_archive_item"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/color_primary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="14sp"
         tools:text="John_Doe" />
 
@@ -49,7 +49,7 @@
         android:layout_marginEnd="@dimen/spacing_normal_16"
         android:layout_toStartOf="@id/tv_counter_archive"
         android:layout_toEndOf="@id/tv_message_author_archive"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="?colorItemMessage"
         android:textSize="14sp"
         tools:text="Когда я проходил интенсив, я мало спал" />
 
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="?colorItemMessage"
         android:textSize="10sp"
         tools:text="18:00" />
 

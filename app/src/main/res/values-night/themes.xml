@@ -10,7 +10,26 @@
         <item name="colorAccentedSurface">@color/color_divider_light</item>
         <item name="colorIcon">@android:color/white</item>
         <item name="colorDivider">@color/color_divider_dark</item>
-        <item name="android:statusBarColor">@android:color/black</item>
+
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowAnimationStyle">@style/ActivityTransitions</item>
+
+        <item name="chipBackgroundColor">@color/color_chip_group_bg_night</item>
+        <item name="colorToolbarBg">@color/color_toolbar_night</item>
+        <item name="colorItemBg">@color/color_bg_night</item>
+        <item name="colorItemMessage">@color/color_gray</item>
+        <item name="colorOnlineIndicator">@color/color_accent_night</item>
+        <item name="colorArchiveIconBg">@color/color_gray_dark</item>
+        <item name="colorMessageCounter">@color/color_gray_dark</item>
+        <item name="colorChatItemsDivider">@color/color_divider_light</item>
+        <item name="colorSwipeBg">@color/color_accent_night</item>
+        <item name="colorSelectedIcon">@color/color_accent_night</item>color_chip_group_bg_night
+        <item name="colorChipGroupBg">@color/color_chip_group_bg_night</item>
+        <item name="colorChipBg">@color/color_bg_night</item>
+        <item name="colorChipClose">@color/color_gray</item>
+        <item name="colorSnackBarBg">@color/color_custom_white</item>
+        <item name="colorSnackBarText">@color/color_chip_group_bg_night</item>
+
 
     </style>
 </resources>

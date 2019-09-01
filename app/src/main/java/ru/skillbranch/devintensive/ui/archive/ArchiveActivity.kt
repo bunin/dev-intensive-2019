@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.ui.archive
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.toolbar
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ArchiveViewModel
 
 class ArchiveActivity : AppCompatActivity() {
@@ -71,17 +73,26 @@ class ArchiveActivity : AppCompatActivity() {
             true
         )
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(resources.getDrawable(R.drawable.id_divider))
         val touchCallback = ChatItemTouchHelperCallback(true, chatAdapter) {
             viewModel.restoreFromArchive(it.id)
-            Snackbar.make(
+            val s = Snackbar.make(
                 rv_archive_list,
                 "Восстановить чат с ${it.title} из архива?",
                 Snackbar.LENGTH_LONG
             )
-                .setAction(R.string.undo) { _ ->
+
+            with(s.view) {
+                setBackgroundColor(Utils.getColor(context, R.attr.colorSnackBarBg))
+                val t: TextView = findViewById(R.id.snackbar_text)
+                t.setTextColor(Utils.getColor(context, R.attr.colorSnackBarText))
+            }
+            with(s) {
+                setAction(R.string.undo) { _ ->
                     viewModel.addToArchive(it.id)
                 }
-                .show()
+                show()
+            }
         }
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_archive_list)

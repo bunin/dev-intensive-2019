@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
+import ru.skillbranch.devintensive.utils.Utils
 
 class ChatAdapter(val listener: (ChatItem) -> Unit, val isArchive: Boolean = false) :
     RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
@@ -135,11 +136,13 @@ class ChatAdapter(val listener: (ChatItem) -> Unit, val isArchive: Boolean = fal
         }
 
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            itemView.setBackgroundColor(if (Utils.isNightMode(itemView.context)) Color.DKGRAY else Color.LTGRAY)
+//            itemView.setBackgroundColor(Color.LTGRAY)
+//            itemView.setBackgroundColor(Utils.getColor(itemView.context, R.attr.colorArchiveIconBg))
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            itemView.setBackgroundColor(Utils.getColor(itemView.context, R.attr.colorItemBg))
         }
     }
 
@@ -183,6 +186,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit, val isArchive: Boolean = fal
             if (isArchive) {
                 return
             }
+            tv_archive_item_title.text = item.title
             with(tv_message_author_archive) {
                 visibility = if (item.author != null) View.VISIBLE else View.GONE
                 text =

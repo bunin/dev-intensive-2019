@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.devintensive.ui.archive.ArchiveActivity
 import ru.skillbranch.devintensive.ui.group.GroupActivity
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -67,17 +69,25 @@ class MainActivity : AppCompatActivity() {
             }
         )
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(resources.getDrawable(R.drawable.id_divider, theme))
         val touchCallback = ChatItemTouchHelperCallback(false, chatAdapter) {
             viewModel.addToArchive(it.id)
-            Snackbar.make(
+            val s = Snackbar.make(
                 rv_chat_list,
                 "Вы точно хотите добавить ${it.title} в архив?",
                 Snackbar.LENGTH_LONG
             )
-                .setAction(R.string.undo) { _ ->
+            with(s.view) {
+                setBackgroundColor(Utils.getColor(context, R.attr.colorSnackBarBg))
+                val t: TextView = findViewById(R.id.snackbar_text)
+                t.setTextColor(Utils.getColor(context, R.attr.colorSnackBarText))
+            }
+            with(s) {
+                setAction(R.string.undo) { _ ->
                     viewModel.restoreFromArchive(it.id)
                 }
-                .show()
+                show()
+            }
         }
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_chat_list)

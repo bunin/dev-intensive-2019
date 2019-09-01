@@ -5,17 +5,33 @@
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
-        <attr name="cv_borderWidth" format="dimension"/>
+        <attr name="cv_borderWidth" format="dimension" />
         <attr name="cv_borderColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="AvatarImageView">
-        <attr name="aiv_borderWidth" format="dimension"/>
+        <attr name="aiv_borderWidth" format="dimension" />
         <attr name="aiv_borderColor" format="color" />
     </declare-styleable>
 
     <attr name="colorAccentedSurface" format="reference" />
     <attr name="colorDivider" format="reference" />
     <attr name="colorIcon" format="reference" />
+
+    <attr name="colorToolbarBg" format="reference" />
+    <attr name="colorItemBg" format="reference" />
+    <attr name="colorItemMessage" format="reference" />
+    <attr name="colorOnlineIndicator" format="reference" />
+    <attr name="colorMessageCounter" format="reference" />
+    <attr name="colorArchiveIconBg" format="reference" />
+    <attr name="colorSwipeBg" format="reference" />
+    <attr name="colorSnackBarBg" format="reference" />
+    <attr name="colorSnackBarText" format="reference" />
+    <attr name="colorChatItemsDivider" format="reference" />
+    <attr name="colorSelectedIcon" format="reference" />
+    <attr name="colorChipGroupBg" format="reference" />
+    <attr name="colorChipBg" format="reference" />
+    <attr name="colorChipClose" format="reference" />
+
 
 </resources>

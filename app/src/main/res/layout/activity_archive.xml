@@ -23,10 +23,12 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:title="@string/archive_item_title"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:background="?colorToolbarBg"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:title="@string/archive_item_title"
+            app:titleTextColor="@color/color_custom_white">
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

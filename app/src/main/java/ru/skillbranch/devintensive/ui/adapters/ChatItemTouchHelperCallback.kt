@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.utils.Utils
 
 class ChatItemTouchHelperCallback(
     private val isArchive: Boolean = false,
@@ -75,7 +76,8 @@ class ChatItemTouchHelperCallback(
     }
 
     private fun drawIcon(canvas: Canvas, itemView: View, dX: Float) {
-        val iconId = if (isArchive) R.drawable.ic_unarchive_black_24dp else R.drawable.ic_archive_black_24dp
+        val iconId =
+            if (isArchive) R.drawable.ic_unarchive_black_24dp else R.drawable.ic_archive_black_24dp
         val icon = itemView.resources.getDrawable(
             iconId,
             itemView.context.theme
@@ -104,7 +106,7 @@ class ChatItemTouchHelperCallback(
             bottom = itemView.bottom.toFloat()
         }
         with(bgPaint) {
-            color = itemView.resources.getColor(R.color.color_primary_dark, itemView.context.theme)
+            color = Utils.getColor(itemView.context, R.attr.colorSwipeBg)
         }
         canvas.drawRect(bgRect, bgPaint)
     }

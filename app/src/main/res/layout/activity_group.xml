@@ -13,10 +13,12 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:title="Создание группы"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.AppBarOverlay" />
+            android:background="?colorToolbarBg"
+            app:popupTheme="@style/AppTheme.AppBarOverlay"
+            app:title="Создание группы"
+            app:titleTextColor="@color/color_custom_white" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -25,17 +27,23 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group"
+        <LinearLayout
+            android:id="@+id/chip_group_wrap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small_8"
-            android:layout_marginBottom="@dimen/spacing_small_8"
-            android:paddingStart="@dimen/spacing_normal_16"
-            android:paddingEnd="@dimen/spacing_normal_16"
+            android:background="?chipBackgroundColor"
+            android:paddingTop="@dimen/spacing_small_8"
+            android:paddingBottom="@dimen/spacing_small_8"
             android:visibility="gone">
 
-        </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/spacing_normal_16"
+                android:paddingEnd="@dimen/spacing_normal_16"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_user_list"
@@ -55,9 +63,9 @@
         android:scaleX="0"
         android:scaleY="0"
         android:visibility="invisible"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
         tools:scaleX="1"
         tools:scaleY="1"
-        tools:visibility="visible"
-        app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+        tools:visibility="visible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
