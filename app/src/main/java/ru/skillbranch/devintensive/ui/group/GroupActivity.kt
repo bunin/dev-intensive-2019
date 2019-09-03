@@ -103,8 +103,8 @@ class GroupActivity : AppCompatActivity() {
         val chip = Chip(this).apply {
             chipIconTint
             text = user.fullName
-            chipIcon = resources.getDrawable(R.drawable.avatar_default, theme)
-//                getUserAvatar(user.id) ?: resources.getDrawable(R.drawable.avatar_default, theme) // module 4 test is failing b/c of this
+            chipIcon =
+                getUserAvatar(user.id) ?: resources.getDrawable(R.drawable.avatar_default, theme)
             isCloseIconVisible = true
             tag = user.id
             isClickable = true
@@ -135,7 +135,7 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private fun getUserAvatar(id: String): Drawable? {
-        val v = rv_user_list.findViewWithTag<View>(id)
+        val v = rv_user_list.findViewWithTag<View>("avatar-$id")
         val a: AvatarImageView = v.findViewById(R.id.iv_avatar_user)
         return Utils.roundDrawable(resources, a.drawable)
     }
